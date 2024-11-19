@@ -1,38 +1,32 @@
 <?php
 
+class DatabaseConnect {
 
-class DatabaseConnection{
     private $host = "localhost";
-    private $database = "ecommerce";
+    private $database = "ecommb1";
     private $dbusername = "root";
     private $dbpassword = "";
     private $conn = null;
 
-    public function connectDB(){
+    // Method to connect to the database
+    public function connectDB() {
+        $dsn = "mysql:host={$this->host};dbname={$this->database};charset=utf8"; // Added charset=utf8 for proper encoding
 
-
-        $host = "localhost";
-        $database = "ecommerce";
-        $dbusername = "root";
-        $dbpassword = "";
-       
-        $dsn = "mysql: host=$this->host;dbname=$this->database;";
         try {
+            // Establish connection
             $this->conn = new PDO($dsn, $this->dbusername, $this->dbpassword);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-
             return $this->conn;
-        } catch (Exception $e){
+
+        } catch (PDOException $e) {  // Use PDOException instead of Exception
+            // Output the error message (consider logging in production)
             echo "Connection Failed: " . $e->getMessage();
+            
             return null;
         }
-       
     }
-
-
 }
-
 
 ?>
