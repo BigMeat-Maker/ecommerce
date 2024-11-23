@@ -1,20 +1,21 @@
-<?php
-   session_start();
-   require_once($_SERVER["DOCUMENT_ROOT"]."/app/config/Directories.php");
-   require_once(ROOT_DIR."includes/header.php");
+<?php 
+require_once($_SERVER["DOCUMENT_ROOT"]."/app/config/Directories.php");
+    require_once(ROOT_DIR."includes\header.php");
 ?>
 
-
-<!-- Navbar -->
-<?php
-     require_once(ROOT_DIR."includes/navbar.php");
-    ?>
+    <!-- Navbar -->
+     
+    <?php require_once("includes\\navbar.php"); ?>
 
 <?php
-if($_SERVER["REQUEST_METHOD"]=="POST")
-{ $_SESSION=[];
-    session_destroy();
+session_start();
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $_SESSION = [];
+            session_destroy();
 }
+
 ?>
 
     <div class="container vh-100 d-flex justify-content-center align-items-center">

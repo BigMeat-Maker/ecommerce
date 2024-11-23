@@ -66,21 +66,18 @@ require_once(__DIR__."/../../components/page-guard.php");
         <h2>Product Maintenance</h2>
 
         <!-- ALERTS -->
-        <?php if (isset($messageSucc)){ ?>
-
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong><?php echo $messageSucc; ?></strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <?php if (isset($messageSucc)) { ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong><?php echo $messageSucc; ?></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } elseif (isset($messageErr)) { ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong><?php echo $messageErr; ?></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php } ?>
 
-
-        <?php if (isset($messageErr)){ ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong><strong><?php echo $messageErr; ?></strong></strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php } ?>
 
         <form action="<?php echo BASE_URL;?>app/product/create_product.php" enctype="multipart/form-data" method="POST">
         <div class="row">
@@ -193,4 +190,3 @@ require_once(__DIR__."/../../components/page-guard.php");
 </script>    
 
     <?php require_once(ROOT_DIR."/includes/footer.php"); ?>
-
