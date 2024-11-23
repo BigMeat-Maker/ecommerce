@@ -32,8 +32,6 @@ if(isset($_SESSION["success"])){
     unset($_SESSION["success"]);
 };
 
-require_once(__DIR__."/../../components/page-guard.php");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

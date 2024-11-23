@@ -14,8 +14,6 @@ if(isset($_SESSION["success"])){
     unset($_SESSION["success"]);
 };
 
-require_once(__DIR__."/../../components/page-guard.php");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,8 +56,6 @@ require_once(__DIR__."/../../components/page-guard.php");
             </div>
         </div>
     </nav>
-
-    <?php require_once(__DIR__."/../../components/page-guard.php"); ?>
 
     <!-- Product Maintenance Form -->
     <div class="container my-5">

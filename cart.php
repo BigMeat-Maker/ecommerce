@@ -1,50 +1,56 @@
-<?php 
-session_start();
-require_once($_SERVER["DOCUMENT_ROOT"]."/app/config/Directories.php");
-require_once(ROOT_DIR."includes/header.php");
+<?php
+    session_start();
+    require_once($_SERVER["DOCUMENT_ROOT"]."/app/config/Directories.php");
+
+    include(ROOT_DIR."app/config/DatabaseConnect.php");
+    $db = new DatabaseConnect();
+    $conn = $db->connectDB();
+
+    $carts          = [];
+    $id             = @$_GET['id'];
+    $userId         = $_SESSION["user_id"];
+    $subtotal       = 0;
+    $purchase_total = 0;
 
 
-include(ROOT_DIR."app/config/DatabaseConnect.php");
-$db = new DatabaseConnect();
-$conn = $db ->connectDB();
+    try {
 
-$carts          = [];
-$id             = @$_GET['id'];
-$userId         = $_SESSION["user_id"];
-$subtotal       = 0;
-$purchase_total = 0;
+        $sql = "SELECT carts.id, products.product_name, carts.quantity, carts.unit_price, carts.total_price " 
+                . " FROM carts "
+                . " LEFT JOIN products ON products.id = carts.product_id"
+                . " WHERE carts.user_id = $userId ";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $carts = $stmt->fetchAll();
 
-try {
-    $sql = "SELECT carts.id, products.product_name, carts.quantity, carts.unit_price, carts.total_price "
-            . " FROM carts "
-            . " LEFT JOIN products ON products.id = carts.product_id" 
-            . " WHERE carts.user_id = $userId";
 
-    $stmt = $conn ->prepare($sql);
-    $stmt -> execute();
-    $carts = $stmt -> fetchAll(); 
+    } catch (PDOException $e) {
+        echo "Connection Failed: " . $e->getMessage();
+        $db = null;
 
-} catch (PDOException $e){
-   echo "Connection Failed: " . $e->getMessage();
-   $db = null;
-}
+    }
 
-require_once(ROOT_DIR."includes/header.php");
+    require_once(ROOT_DIR."includes/header.php");
 
-if(isset($_SESSION["error"])){
-    $messageErr=$_SESSION["error"];
-    unset($_SESSION["error"]);
-};
+    if(isset($_SESSION["success"])){
+        $messageSuccess = $_SESSION["success"];
+        unset($_SESSION["success"]);
 
-if(isset($_SESSION["success"])){
-    $messageSucc=$_SESSION["success"];
-    unset($_SESSION["success"]);
-};
+    }
+
+
+    if(isset($_SESSION["error"])){
+        $messageError = $_SESSION["error"];
+        unset($_SESSION["error"]);
+
+    }
 ?>
 
-
     <!-- Navbar -->
-    <?php require_once("includes\\navbar.php"); ?>
+    <?php
+    require_once("includes\\navbar.php")
+
+?>
 
     <!-- Shopping Cart -->
     <div class="container mt-5">
@@ -62,20 +68,21 @@ if(isset($_SESSION["success"])){
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if($carts){
-                        foreach($carts as $indvCart){?>
-                        <tr>
-                            <td><?php echo $indvCart["product_name"]?></td>
-                            <td><?php echo $indvCart["quantity"]?></td>
-                            <td><?php echo number_format($indvCart["unit_price"])?></td>
-                            <td><?php echo number_format($indvCart["total_price"])?></td>
-                        </tr>
-                        <?php
+                        <?php if($carts){ 
+                        foreach($carts as $indvCart){
                             $subtotal += $indvCart["total_price"];
-                             } ?>
-                        <?php } else{?>
+                            
+                        ?>
+                        <tr>
+                            <td><?php echo $indvCart["product_name"]; ?></td>
+                            <td><?php echo $indvCart["quantity"]; ?></td>
+                            <td><?php echo number_format ($indvCart["unit_price"],2); ?></td>
+                            <td><?php echo number_format ($indvCart["total_price"],2); ?></td>
+                        </tr>
+                        <?php } //end of foreach?>
+                        <?php } else {?>
                             <tr>
-                                <td colspan="4" class="text-center">You dont have any product yet</td>
+                                <td colspan="4">You do not have any products yet</td>
                             </tr>
                         <?php } ?>
                     </tbody>
@@ -89,11 +96,11 @@ if(isset($_SESSION["success"])){
                         <h4>Order Summary</h4>
                     </div>
                     <div class="card-body">
-                        <?php if($carts){ ?>
-                        <p>Subtotal: <span class="float-end"><?php echo number_format($subtotal,2); ?></span></p>
+                            <?php if($carts){ ?>
+                        <p>Subtotal: <span class="float-end">Php <?php echo number_format ($subtotal,2); ?></span></p>
                         <p>Shipping: <span class="float-end">Php 50.00</span></p>
                         <hr>
-                        <h5>Total: <span class="float-end"><?php echo ($subtotal + 50); ?></span></h5>
+                        <h5>Total: <span class="float-end">Php <?php echo number_format($subtotal + 50,2); ?></span></h5>
 
                         <!-- Payment Method Selection -->
                         <div class="mt-4">
@@ -114,10 +121,10 @@ if(isset($_SESSION["success"])){
                         <!-- Confirm Payment Button -->
                         <div class="d-grid gap-2 mt-4">
                             <button type="submit" class="btn btn-success">Confirm Payment</button>
-                            <?php } else { ?>
-                                <p class="text-center">No product details yet</p>
-                            <?php } ?>
                         </div>
+                        <?php } else { ?>
+                                <p class="text-center">No product details yet</p>
+                        <?php }?>
                     </div>
                 </div>
             </div>

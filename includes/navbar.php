@@ -10,7 +10,8 @@
                         <a class="nav-link active" aria-current="page" href="<?php echo BASE_URL; ?>index.php">Home</a>
                     </li>
 
-                    <?php if(!isset($_SESSION["username"])) { ?>
+                    <?php if(!isset($_SESSION["username"])) {?>
+
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo BASE_URL; ?>login.php">Login</a>
                     </li>
@@ -18,38 +19,41 @@
                         <a class="nav-link" href="<?php echo BASE_URL; ?>registration.php">Register</a>
                     </li>
                     <?php } ?>
-
+                    
                     <?php if(isset($_SESSION["username"]) && (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == "1")) { ?>
-
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo BASE_URL; ?>views/admin/products/index.php">Products</a>
                     </li>
-
                     <?php } ?>
 
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo BASE_URL; ?>cart.php">Cart</a>
                     </li>
 
-                     <!-- Dropdown for Signed-in User -->
-                    <?php 
-                    if(isset($_SESSION["username"])) { ?>
-                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?php echo $_SESSION["username"]; ?> <!-- Replace with dynamic username -->
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="dashboard.php">Dashboard</a></li>
-                            <li><a class="dropdown-item" href="profile.php">Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form action="logout.php" method="POST">
-                                    <button type="submit" class="dropdown-item">Log Out</button>
-                                </form>
-                        </ul>
+                    
+
+                    <!-- Dropdown for Signed-in User -->
+                    <!-- if naka set ung $_SESSION["fullname"], dun lang lalabas ung name ng user -->
+                    <?php if(isset($_SESSION["fullname"])){ ?> 
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?php echo $_SESSION["fullname"]; ?> <!-- Replace with dynamic username -->
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="<?php echo BASE_URL; ?>logout.php" method="POST">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                            </form>
+                        
+                        </li>
+                    </ul>
                     </li>
-                    <?php } ?>
-                </ul>
-            </div>
+                    <?php } ?> 
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>

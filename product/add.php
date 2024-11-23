@@ -40,6 +40,8 @@
         </div>
     </nav>
 
+    <?php require_once(__DIR__."/../../components/page-guard.php"); ?>
+
     <!-- Product Maintenance Form -->
     <div class="container my-5">
         <h2>Product Maintenance</h2>

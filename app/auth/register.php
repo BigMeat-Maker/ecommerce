@@ -45,11 +45,4 @@ $_SESSION["success"] = "Registration Successful";
     }
 }
 
-
-
-
-//connect to database
-
-//insert data
-
 ?>
