@@ -1,155 +1,150 @@
 <?php
-    session_start();
-    require_once($_SERVER["DOCUMENT_ROOT"]."/app/config/Directories.php");
+session_start();
+require_once($_SERVER["DOCUMENT_ROOT"] . "/app/config/Directories.php");
 
-    include(ROOT_DIR."app/config/DatabaseConnect.php");
-    $db = new DatabaseConnect();
-    $conn = $db->connectDB();
+include(ROOT_DIR . "app/config/DatabaseConnect.php");
+$db = new DatabaseConnect();
+$conn = $db->connectDB();
 
-    $product = [];
-    $id = @$_GET['id'];
-    $category = ["1" => "Electronics", "2" => "Fashion", "3" => "Home Appliance"];
-
-
-    try {
-
-        $sql = "SELECT * FROM products WHERE products.id = $id ";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $product = $stmt->fetch();
+$product = [];
+$id = @$_GET['id'];
+$category = ["1" => "Electronics", "2" => "Fashion", "3" => "Home Appliance"];
 
 
-    } catch (PDOException $e) {
-        echo "Connection Failed: " . $e->getMessage();
-        $db = null;
+try {
 
-    }
+    $sql = "SELECT * FROM products WHERE products.id = $id ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $product = $stmt->fetch();
+} catch (PDOException $e) {
+    echo "Connection Failed: " . $e->getMessage();
+    $db = null;
+}
 
-    require_once(ROOT_DIR."includes/header.php");
+require_once(ROOT_DIR . "includes/header.php");
 
-    if(isset($_SESSION["success"])){
-        $messageSuccess = $_SESSION["success"];
-        unset($_SESSION["success"]);
+if (isset($_SESSION["success"])) {
+    $messageSuccess = $_SESSION["success"];
+    unset($_SESSION["success"]);
+}
 
-    }
 
-
-    if(isset($_SESSION["error"])){
-        $messageError = $_SESSION["error"];
-        unset($_SESSION["error"]);
-
-    }
+if (isset($_SESSION["error"])) {
+    $messageError = $_SESSION["error"];
+    unset($_SESSION["error"]);
+}
 ?>
 
-<!-- Navbar --> 
-<?php require_once(ROOT_DIR."includes/navbar.php");?>
+<!-- Navbar -->
+<?php require_once(ROOT_DIR . "includes/navbar.php"); ?>
 
-    <!-- Product Details -->
-    <div class="container my-5 bg-bpod">
-        <div class="container mt-5">
+<!-- Product Details -->
+<div class="container my-5 bg-bpod">
+    <div class="container mt-5">
 
-            <?php if (isset( $messageSuccess)){ ?>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong><?php echo  $messageSuccess; ?></strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        <?php } ?>
-        
+        <?php if (isset($messageSuccess)) { ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong><?php echo  $messageSuccess; ?></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
 
-            <?php if (isset($messageError)){ ?>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong><strong><?php echo $messageError; ?></strong></strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        <?php } ?>
 
-            <div class="row">
-                <!-- Product Image -->
-                <div class="col-md-6">
-                    <img src="<?php echo BASE_URL.$product["image_url"]; ?>" alt="Product Image" class="img-fluid border border-warning border-5" style="height:500px">
-                </div>
+        <?php if (isset($messageError)) { ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong><strong><?php echo $messageError; ?></strong></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
 
-                <!-- Product Information -->
-                 
-                <div class="col-md-6">
-                    <form action="<?php echo BASE_URL;?>app/cart/add_to_cart.php" method="POST">
+        <div class="row">
+            <!-- Product Image -->
+            <div class="col-md-6">
+                <img src="<?php echo BASE_URL . $product["image_url"]; ?>" alt="Product Image" class="img-fluid border border-warning border-5" style="height:500px">
+            </div>
+
+            <!-- Product Information -->
+
+            <div class="col-md-6">
+                <form action="<?php echo BASE_URL; ?>app/cart/add_to_cart.php" method="POST">
                     <input type="hidden" name="id" value="<?php echo $product["id"]; ?>">
-                        <h2><?php echo $product["product_name"]; ?></h2>
-                        <div class="mb-3"><span class="badge text-bg-info"><?php echo $category[$product["category_id"]]; ?></span></div>
-                        <p class="lead text-warning fw-bold">Php <?php echo number_format ($product["unit_price"],2) ?> </p>
-                        <p><?php echo $product ["product_description"]; ?></p>
+                    <h2><?php echo $product["product_name"]; ?></h2>
+                    <div class="mb-3"><span class="badge text-bg-info"><?php echo $category[$product["category_id"]]; ?></span></div>
+                    <p class="lead text-warning fw-bold">Php <?php echo number_format($product["unit_price"], 2) ?> </p>
+                    <p><?php echo $product["product_description"]; ?></p>
 
-                        <!-- Quantity Selection -->
-                        <div class="mb-3">
-                            <label for="quantity" class="form-label">Quantity</label>
-                            <div class="input-group">
-                                <button class="btn btn-outline-secondary" type="button" id="decrement-btn">-</button>
-                                <input type="number" id="quantity" name="quantity" class="form-control text-center" value="1" min="1" max="10" style="max-width: 60px;">
-                                <button class="btn btn-outline-secondary" type="button" id="increment-btn">+</button>
-                                <span class="input-group-text">/ Remaining Stocks: 10</span>
-                            </div>
+                    <!-- Quantity Selection -->
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <div class="input-group">
+                            <button class="btn btn-outline-secondary" type="button" id="decrement-btn">-</button>
+                            <input type="number" id="quantity" name="quantity" class="form-control text-center" value="1" min="1" max="10" style="max-width: 60px;">
+                            <button class="btn btn-outline-secondary" type="button" id="increment-btn">+</button>
+                            <span class="input-group-text">/ Remaining Stocks: 10</span>
                         </div>
+                    </div>
 
-                        <!-- Add to Cart Button -->
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg" <?php echo ($product["stocks"] <=0 ? "disabled" : ""); ?>><?php echo ($product["stocks"] <=0 ? "Sold Out" : "Add to Cart"); ?></button>
-                        </div>
-                    </form>
-                    
+                    <!-- Add to Cart Button -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg" <?php echo ($product["stocks"] <= 0 ? "disabled" : ""); ?>><?php echo ($product["stocks"] <= 0 ? "Sold Out" : "Add to Cart"); ?></button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Related Products (Optional) -->
+    <div class="container my-5">
+        <h3>Related Products</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/200" class="card-img-top" alt="Related Product 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Related Product 1</h5>
+                        <p class="card-text">$30.00</p>
+                        <a href="#" class="btn btn-primary">View Product</a>
+                    </div>
                 </div>
-                
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/200" class="card-img-top" alt="Related Product 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Related Product 2</h5>
+                        <p class="card-text">$40.00</p>
+                        <a href="#" class="btn btn-primary">View Product</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/200" class="card-img-top" alt="Related Product 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Related Product 3</h5>
+                        <p class="card-text">$35.00</p>
+                        <a href="#" class="btn btn-primary">View Product</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/200" class="card-img-top" alt="Related Product 4">
+                    <div class="card-body">
+                        <h5 class="card-title">Related Product 4</h5>
+                        <p class="card-text">$45.00</p>
+                        <a href="#" class="btn btn-primary">View Product</a>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <!-- Related Products (Optional) -->
-        <div class="container my-5">
-            <h3>Related Products</h3>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="https://via.placeholder.com/200" class="card-img-top" alt="Related Product 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Related Product 1</h5>
-                            <p class="card-text">$30.00</p>
-                            <a href="#" class="btn btn-primary">View Product</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="https://via.placeholder.com/200" class="card-img-top" alt="Related Product 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Related Product 2</h5>
-                            <p class="card-text">$40.00</p>
-                            <a href="#" class="btn btn-primary">View Product</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="https://via.placeholder.com/200" class="card-img-top" alt="Related Product 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Related Product 3</h5>
-                            <p class="card-text">$35.00</p>
-                            <a href="#" class="btn btn-primary">View Product</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="https://via.placeholder.com/200" class="card-img-top" alt="Related Product 4">
-                        <div class="card-body">
-                            <h5 class="card-title">Related Product 4</h5>
-                            <p class="card-text">$45.00</p>
-                            <a href="#" class="btn btn-primary">View Product</a>
-                        </div>
-                    </div>
-                </div>  
-            </div>
-        </div>
+</div>
 
-    </div> 
-    
 <script>
     document.getElementById('decrement-btn').addEventListener('click', function() {
         let quantityInput = document.getElementById('quantity');
@@ -170,13 +165,14 @@
 <footer class="bg-dark text-white text-center py-3">
     <p>&copy; 2024 MyShop. All rights reserved.</p>
     <nav>
-        <a href="#" class="text-white">Privacy Policy</a> | 
+        <a href="#" class="text-white">Privacy Policy</a> |
         <a href="#" class="text-white">Terms & Conditions</a>
     </nav>
 </footer>
 
-   
+
 <!-- Bootstrap 5 JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
