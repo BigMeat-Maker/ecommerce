@@ -2,28 +2,22 @@
 
 class DatabaseConnect
 {
-    // private $host = "localhost";
-    // private $database = "ecommerce_mmanuel";
-    // private $dbusername = "mmanuel";
-    // private $dbpassword = "ITMajor98102";
-    // private $conn = null;
-
     private $host = "localhost";
-    private $database = "ecommerce";
-    private $dbusername = "root";
-    private $dbpassword = "";
+    private $database = "ecommerce_mmanuel";
+    private $dbusername = "mmanuel";
+    private $dbpassword = " M34nuel_2024";
     private $conn = null;
 
-    //$this->$host;
+    // private $host = "localhost";
+    // private $database = "ecommerce";
+    // private $dbusername = "root";
+    // private $dbpassword = "";
+    // private $conn = null;
+
 
 
     public function connectDB()
     {
-
-        /*$host = "localhost";
-        $database = "ecommerce";
-        $dbusername = "root";
-        $dbpassword = "";*/
 
         $dsn = "mysql: host=$this->host;dbname=$this->database;";
         try {
