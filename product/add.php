@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,14 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- Navbar with Dropdown for User Account (Admin) -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="homepage.html">MyShop</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -26,7 +29,8 @@
 
                     <!-- Dropdown for Admin User -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             AdminUser <!-- Replace with dynamic admin username -->
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="adminDropdown">
@@ -77,13 +81,15 @@
                         <!-- Number of Stocks -->
                         <div class="col-md-4 mb-3">
                             <label for="numberOfStocks" class="form-label">Number of Stocks</label>
-                            <input type="number" class="form-control" id="numberOfStocks" placeholder="Enter number of stocks" oninput="calculateTotalPrice()">
+                            <input type="number" class="form-control" id="numberOfStocks" placeholder="Enter number of stocks"
+                                oninput="calculateTotalPrice()">
                         </div>
 
                         <!-- Unit Price -->
                         <div class="col-md-4 mb-3">
                             <label for="unitPrice" class="form-label">Unit Price</label>
-                            <input type="number" step="0.01" class="form-control" id="unitPrice" placeholder="Enter unit price" oninput="calculateTotalPrice()">
+                            <input type="number" step="0.01" class="form-control" id="unitPrice" placeholder="Enter unit price"
+                                oninput="calculateTotalPrice()">
                         </div>
 
                         <!-- Total Price (Automatically Calculated) -->
@@ -107,7 +113,6 @@
                             <button type="submit" class="btn btn-primary">Save Product</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </form>
@@ -116,4 +121,5 @@
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

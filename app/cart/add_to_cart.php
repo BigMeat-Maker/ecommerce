@@ -9,7 +9,7 @@ include("../config/DatabaseConnect.php");
 
 if(!isset($_SESSION['username'])){
     header("location: ".BASE_URL."login.php");
-
+    exit;
 }
 
 $db = new DatabaseConnect();
