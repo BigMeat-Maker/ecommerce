@@ -22,7 +22,7 @@
 
     <!-- Navbar -->
     <?php
-    require_once("includes\\navbar.php");
+    require_once("includes//navbar.php");
 
 ?>
 

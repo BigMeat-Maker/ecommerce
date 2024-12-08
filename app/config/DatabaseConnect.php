@@ -8,13 +8,6 @@ class DatabaseConnect
     private $dbpassword = " M34nuel_2024";
     private $conn = null;
 
-    // private $host = "localhost";
-    // private $database = "ecommerce";
-    // private $dbusername = "root";
-    // private $dbpassword = "";
-    // private $conn = null;
-
-
 
     public function connectDB()
     {
